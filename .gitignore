@@ -1,2 +1,4 @@
+.vscode
 build
 b12_fp32
+b12_fp16
