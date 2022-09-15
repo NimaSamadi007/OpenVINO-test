@@ -4,7 +4,7 @@ In this repository I will test and document the OpenVINO Framework. According to
 
 So, the purpose of OpenVINO is to enhance the performance of AI inference. It is currently support Intel hardware (also ARM CPU is supported but not officially as of now). Since Intel CPU is quite widespread and widely used, we choose it as one of the main implementation hardware. 
 
-## Install
+## Installation
 The installation is tested with Ubuntu 22.04 and Python3.9. Install Python3.9 manually as the default version of Python in Ubuntu 22.04 is 3.10. I suggest creating a virtual environment and installing OpenVINO in it.
 
 OpenVINO comes in two flavors: 1) OpenVINO developement tools, 2) OpenVINO runtime 
@@ -73,4 +73,7 @@ $ ./build_samples.sh
 ```
 If everything goes well, you can use OpenVINO runtime in C++. 
 
+**OpenVINO Optimization Guide**
+
+OpenVINO comes with a lot of optimization tools. I've investigated its tools and will document them in this repository. Refer to [**this doc**](./docs/optimization-guide.md) for more information.
 
