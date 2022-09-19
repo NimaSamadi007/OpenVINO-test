@@ -150,17 +150,52 @@ CPU plugin supports the following features:
 7. Stateful models: Fully supported
 
 ### GPU Plugin Capabilities
+GPU plugin supports the following the following datatypes as inference precision:
++ f32 (float)
++ f16 (float)
++ u8 (quantized datatype)
++ i8 (quantized datatype)
++ u1 (quantized datatype)
+
+Also following features are supported by GPU plugin:
+1. [Multi-device execution](#multi-device-execution): If system has multiple GPUs, the model can be run on all of them simultaneously.
+    ```cpp
+    ov::Core core;
+    auto model = core.read_model("model.xml");
+    auto compiled_model = core.compile_model(model, "MULTI:GPU.1,GPU.0");    
+    ```
+2. Automatich batching: When throughput hint is used, the automatic batching is enabled. Also you can enable automatic batching via explicit "BATCH" options:
+    ```cpp
+    ov::Core core;
+    auto model = core.read_model("model.xml");
+    auto compiled_model = core.compile_model(model, "BATCH:GPU");    
+    ```
+3. [Multi-stream execution](#multi-stream-execution): Fully supported
+4. Dynamic shapes: Only dynamic shape for batch is supported and user needs to provide a upper bound for the batch size (specified as `N` in layout terms). 
+5. Preprocessing acceleration: Fully supported
+6. [Model Chaching](#model-caching): Can help reduce startup time of the model inference (i.e. compiling the model for GPU device). 
+7. Extensibility: Fully supported
+
+To use GPU plugin effectively, more needs to be done. This document will not cover every detail of GPU plugin. However, [this link](https://docs.openvino.ai/latest/openvino_docs_OV_UG_supported_plugins_GPU.html) can be useful.
 
 ### VPU Plugin Capabilities
+VPU plugin is pretty limited to be used with different networks. Plus, it is not interesting to us as of writing this document. So, we will not cover it in detail. However, [this link](https://docs.openvino.ai/latest/openvino_docs_OV_UG_supported_plugins_VPU.html) can be useful.
 
 ### GNA Plugin Capabilities
+As mentioned earlier, GNA is a low-power neural network coprocessor inside Intel CPUs. Note that it is not supposed to be used in place of CPU itself, rather it's designed to offload continous tasks such as speech recognition and noise reduction to it. By doing so, the CPU can be used for other tasks and lower power will be consumed. 
 
+The first and second version of GNA were added in 10th and 11th generation Intel® CPUs. The third version was added in 12th generation Intel® CPUs. The GNAs are not backward comptabile. Currently it's quite limited in its features. So, it won't be discussed in this document. More information about GNA can be found [here](https://docs.openvino.ai/latest/openvino_docs_OV_UG_supported_plugins_GNA.html).
+
+
+[This link](https://docs.openvino.ai/latest/openvino_docs_OV_UG_supported_plugins_Supported_Devices.html) summarizes all the supported devices and their capabilities.
 
 Next some capabilities are explained in detail:
 
-### Multi-device execution
+### Automatic Device Selection
 
-### Multi-stream execution
+### Multi-device Execution
+
+### Multi-stream Execution
 
 ### Model Caching
 
