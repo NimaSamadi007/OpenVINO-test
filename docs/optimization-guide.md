@@ -7,8 +7,8 @@ Valuable tools are provided within OpenVINO environment to help data scientists 
 + [Model Optimizer](#model-optimizer)
 + [Deploying with OpenVINO Runtime](#deploying-with-openvino-runtime)
 + [Working with Devices](#working-with-devices)
-+ [Hardware Support](#hardware-support)
-
++ [Tuning for Performance](#tuning-for-performance)
+___
 ## Model Optimizer
 Model optimizer is used to convert the AI models to OpenVINO IR format. IR stands for intermediate representation. Every converted model is consisted of (at least) two files: 1) `.xml` file which contains the network topology and 2) `.bin` file which contains the weights of the network. Later, OpenVINO runtime loades the IR files and executes the model. 
 
@@ -42,9 +42,9 @@ The details of how to convert the models with model optimizer are not covered in
 
 3. **Compression of a Model to FP16:**
 
-    By compressing the model to FP16 you can reduce the model size. This compression would not affect the accuracy of the model that much and is recommended before quantizing model to INT8. Note that the inference will not be in FP16 format unless you have a device that supports bfloat16 format. For more information about hardware support, refer to [this](#hardware-support) section of this document.
+    By compressing the model to FP16 you can reduce the model size. This compression would not affect the accuracy of the model that much and is recommended before quantizing model to INT8. Note that the inference will not be in FP16 format unless you have a device that supports bfloat16 format. For more information about hardware support, refer to [this](#working-with-devices) section of this document.
 
-
+___
 ## Deploying with OpenVINO Runtime
 This section covers the deployment of the models with OpenVINO runtime. My focus is on the C++ API of OpenVINO runtime. However, the Python API is very similar and will not be discussed here. Plus, I only mention tips that will help to improve the performance of the model. For more information, refer to the [official documentation](https://docs.openvino.ai/latest/openvino_docs_OV_UG_Integrate_OV_with_your_application.html). 
 
@@ -71,8 +71,98 @@ This section covers the deployment of the models with OpenVINO runtime. My focus
     ```
     You can also set the exact waiting time with `wait_for` function. The duration specifies the blocking time of `infer_request` method. Using asynchronous mode is recommended and you can run other tasks while the inference is running. 
 
-
+___
 ## Working with Devices
+OpenVINO can be used with a wide range of hardware. The following table from [OpenVINO documentation](https://docs.openvino.ai/latest/openvino_docs_OV_UG_Working_with_devices.html) shows the supported device types:
 
-## Hardware Support
-To be able to get the best performance, you should know your CPU features and hardware supports. According to [OpenVINO](https://docs.openvino.ai/latest/openvino_docs_OV_UG_supported_plugins_Supported_Devices.html), 
+|Plugin|Device type|
+|:-:|:-:|
+CPU | Intel® Xeon®, Intel® Core™ and Intel® Atom® processors with Intel® Streaming SIMD Extensions (Intel® SSE4.2), Intel® Advanced Vector Extensions 2 (Intel® AVX2), Intel® Advanced Vector Extensions 512 (Intel® AVX-512), Intel® Vector Neural Network Instructions (Intel® AVX512-VNNI) and bfloat16 extension for AVX-512 (Intel® AVX-512_BF16 Extension)
+GPU|Intel® Graphics, including Intel® HD Graphics, Intel® UHD Graphics, Intel® Iris® Graphics, Intel® Xe Graphics, Intel® Xe MAX Graphics
+VPUs|Intel® Neural Compute Stick 2 powered by the Intel® Movidius™ Myriad™ X, Intel® Vision Accelerator Design with Intel® Movidius™ VPUs
+GNA|Intel® Speech Enabling Developer Kit ; Amazon Alexa* Premium Far-Field Developer Kit ; Intel® Pentium® Silver Processors N5xxx, J5xxx and Intel® Celeron® Processors N4xxx, J4xxx (formerly codenamed Gemini Lake) : Intel® Pentium® Silver J5005 Processor , Intel® Pentium® Silver N5000 Processor , Intel® Celeron® J4005 Processor , Intel® Celeron® J4105 Processor , Intel® Celeron® J4125 Processor , Intel® Celeron® Processor N4100 , Intel® Celeron® Processor N4000 ; Intel® Pentium® Processors N6xxx, J6xxx, Intel® Celeron® Processors N6xxx, J6xxx and Intel Atom® x6xxxxx (formerly codenamed Elkhart Lake) ; Intel® Core™ Processors (formerly codenamed Cannon Lake) ; 10th Generation Intel® Core™ Processors (formerly codenamed Ice Lake) : Intel® Core™ i7-1065G7 Processor , Intel® Core™ i7-1060G7 Processor , Intel® Core™ i5-1035G4 Processor , Intel® Core™ i5-1035G7 Processor , Intel® Core™ i5-1035G1 Processor , Intel® Core™ i5-1030G7 Processor , Intel® Core™ i5-1030G4 Processor , Intel® Core™ i3-1005G1 Processor , Intel® Core™ i3-1000G1 Processor , Intel® Core™ i3-1000G4 Processor ; 11th Generation Intel® Core™ Processors (formerly codenamed Tiger Lake) ; 12th Generation Intel® Core™ Processors (formerly codenamed Alder Lake)
+Arm® CPU|Raspberry Pi™ 4 Model B, Apple® Mac mini with M1 chip, NVIDIA® Jetson Nano™, Android™ devices
+
+More information about each device is provided in the following sub sections:
+<details>
+    <summary><strong>CPU</strong></summary>
+&nbsp SSE stands for streaming SIMD extensions. As its name suggests, SSE enables Intel CPUs (and AMD) to execute SIMD operations. SSE2 was introduced in 2000 with the Pentium 4 processor. Later on, SSE3, SSE4.2 and AVX were added to different generations of Intel CPUs. Almost all x86 CPUs support SSE2 and almos all generations of core i3,5, and 7, support SSE4.2.
+
+&nbsp AVX is an extension to x86 ISA that enables running one instruction on multiple data (SIMD). AVX by default enables 256-bit vector registers. With that you can run operations on eight 32-bit registers or four 64-bit registers. AVX was introduced back in 2008. AVX2 extends more integer operation to 256 bits and was introduced in 2013. AVX-512 extends operations to 512 bits registers.
+
+If you wanna find out if your CPU supports this plugins or not, refer to [Intel website](https://www.intel.com/content/www/us/en/products/details/processors.html) and find your CPU. 
+</details>
+<details>
+    <summary><strong>VPU</strong></summary>
+&nbsp VPU is a special hardware that can be used along with CPU to run inference. For instance, Intel® Neural Compute Stick 2 comes in the form of a USB stick and can be connected to a computer or even a Raspberry Pi. 
+</details>
+<details>
+    <summary><strong>GNA</strong></summary>
+&nbsp GNA is a special hardware inside the CPU that can help to run inference. It's like a co-processor and is added mostly in 10, 11 and 12 generation Intel® CPUs.
+</details>
+<details>
+    <summary><strong>ARM CPU</strong></summary>
+&nbsp Arm CPU support is added through OpenVINO community. So, it is not officially supported by Intel. However, it is possible to use OpenVINO with Arm CPU. 
+</details>
+  
+OpenVINO offers various capability to work with devices. The following feature table shows the supported features for each device type:
+
+|Capability|[CPU](#cpu-plugin-capabilities)|[GPU](#gpu-plugin-capabilities)|[GNA](#gna-plugin-capabilities)|Arm CPU|Description|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+Heterogeneous execution|Yes|Yes|No|Yes| Enables automatic inference splitting between several devices|
+Multi-device execution|Yes|Yes|Partial|Yes| Running inference of the same model on several devices in parallel|
+Automatic batching|No|Yes|No|No| Enables input batching that is completely transparent to the user|
+Multi-stream execution|Yes|Yes|No|Yes| 
+Models caching|Yes|Partial|Yes|No|
+Dynamic shapes|Yes|Partial|No|No| Input dynamic shape that enables input to be of different sizes|
+Import/Export|Yes|No|Yes|No
+Preprocessing acceleration|Yes|Yes|No|Partial
+Stateful models|Yes|No|Yes|No
+Extensibility|Yes|Yes|No|No
+
+Next the capabilities of each device is explained in detail in the following sub sections:
+
+### CPU Plugin Capabilities
+CPU plugin supports the following datatypes as inference precision:
+
+- f32 (float)
+- bf16 (bfloat16)
+- i32 (int)
+- u8 (quantized datatype)
+- i8 (quantized datatype)
+- u1 (quantized datatype)
+
+By default OpenVINO Runtime uses f32 as inference precision. So, FP16 models will be converted to FP32 internally. However, if CPU supports `bfloat16` natively (devices that have `AVX512_BF16` extension), the `bfloat16` precision will be used automatically. The following image shows the difference between FP32, FP16 and BF16:
+![difference between FP32 and BF16](./imgs/bf16_diagram.png)
+
+CPU plugin supports the following features:
+1. [Multi-device execution](#multi-device-execution):
+    ```cpp
+    ov::Core core;
+    auto model = core.read_model("model.xml");
+    auto compiled_model = core.compile_model(model, "MULTI:CPU,GPU.0");
+    ```
+2. [Multi-stream execution](#multi-stream-execution): if number of streams is more than 1, either by using `ov::num_streams(n_streams)`, or `ov::hint::performance_mode(ov::hint::PerformanceMode::THROUGHPUT)`, it will create multiple threads to run inference. More information about that will be explained in [Tuning for Performance](#tuning-for-performance) section. 
+3. Dynamic Shapes: Fully supported
+4. Preprocessing acceleration: Fully supported
+5. [Model Chaching](#model-caching): Fully supported - This mechanism helps reducing the time needed to load the model to the device in later runs. 
+6. Extensibility: Fully supported - One can define her own operations and use them along with OpenVINO operations.
+7. Stateful models: Fully supported
+
+### GPU Plugin Capabilities
+
+### VPU Plugin Capabilities
+
+### GNA Plugin Capabilities
+
+
+Next some capabilities are explained in detail:
+
+### Multi-device execution
+
+### Multi-stream execution
+
+### Model Caching
+
+___
+## Tuning for Performance
