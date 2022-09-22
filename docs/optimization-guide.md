@@ -192,12 +192,32 @@ The first and second version of GNA were added in 10th and 11th generation Intel
 Next some capabilities are explained in detail:
 
 ### Automatic Device Selection
+Automatic device selection aims to select the best device for inference, based on the current hardware. By using that, the user doesn't need to know which device is the best for her model and bind it to that device. The rationale behind this is as follows:
+
+1. First checks what devices are available in the system.
+2. Then precision of the model is checked 
+3. After that, highest priority device is selected to run inference on
+it.
+
+"AUTO" always starts inference with CPU, since it offers lowest latency possible. In the same time, model is being compiled for other devices (GPU for instance). That helps reducing startup time of the model inference. For later inference cycles, GPU is used for inference as it offers better throughput (if needed). Following figure summarizes the process:
+
+![auto device selection](./imgs/autoplugin_accelerate.png)
 
 ### Multi-device Execution
+Multi-device execution provides the abstraction of a virtual device that is composed of multiple physical devices. So, when there is an inference request, "MULTI" assigns it automatically to a particular device that is available at the moment. Then all the inference requests are run in parallel.
+
+One benefit of using "MULTI" is the improvement in throughput. Another benefit is that it increases performance stability. Plus, user doesn't need to handle any details of the physical devices (for instance compiling for different devices) and OpenVINO takes care of that internally. 
+
+Note that the performance gain is only visible if there are multiple inference requests so that the devices are always busy. Otherwise, there wouldn't be so much gain. 
+
+You can change the priority of the devices at any time. For more information about "MULTI", pleaser refer to [this](https://docs.openvino.ai/latest/openvino_docs_OV_UG_Running_on_multiple_devices.html).
 
 ### Multi-stream Execution
+It's more beneficial to run inference requests asynchronously. Each device in OpenVINO has a queue of inference requests. The device may process multiple inference requests in parallel. User can control the number of parallel requests by setting the number of streams.
 
 ### Model Caching
+Compiling a model for a device is a time consuming task. So, it's better to do it once and reuse it later. Model caching is a mechanism that helps reducing the time needed to load the model to the device in later runs. So, it helps reducing startup time of the model inference. By setting `cache_dir` config option you can enable model caching. 
 
+If device supports import/export mechanism, the compiled model is saved to the specified directory and can later be reused. If device doesn't support import/export mechanism, the original model will be used and **no** error will be thrown.
 ___
 ## Tuning for Performance
