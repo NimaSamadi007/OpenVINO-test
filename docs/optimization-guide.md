@@ -313,3 +313,19 @@ Next POT will be explained in detail and some insights will be provided about NN
     To use it you have to build a training pipeline for your model. This method is not covered in this doc as we are interested in post training optimization methods. However, you can refer to [this doc](https://docs.openvino.ai/latest/tmo_introduction.html) for more information. 
 
 ### Runtime Optimization
+As it's name suggests, this section surveys runtime optimization methods. Most parametrs are discussed in the previous sections. So, some part might be repeated. Plus, we're only interested in troughpot optimization methods. So, I'd only link to the relevant parts of the docs.
+
+Some techniques to optimize the inference time are:
++ Using Pre-processing with OpenVINO APIs: Covered in [Model optimizer section](#model-optimizer)
++ OpenVINO Async API: Covered in [Deploying with OpenVINO Runtime](#deploying-with-openvino-runtime)
++ `get_tensor` and `set_tensor` methods: Each device handles the input/output tensor and intermediate tensors differently. It is suggested to use `get_tensor()` as it returns the `data()` pointer which points to the content of tensor in memory. For example, if the inference is run on GPU, the memory content is mapped from CPU to CPU, only when `get_tensor()` is used. For more information it's please refer to [this](https://docs.openvino.ai/latest/openvino_docs_deployment_optimization_guide_common.html#the-get-tensor-idiom) part of OpenVINO docs. 
+
+To optimizer for throughput, two methods can be used:
++ Basic (high-level) optimization: Using OpenVINO performance hints that sets hyper-parameters dynamically for each device.
++ Advanced (low-level) optimization: Using batching and streams. For more information refer to [this doc](https://docs.openvino.ai/latest/openvino_docs_deployment_optimization_guide_tput_advanced.html#doxid-openvino-docs-deployment-optimization-guide-tput-advanced). 
+Note that the system design must be throughput-oriented in first place. This means that:
+1. Hugh amount of input data must be available (for instance, processing input frames from multiple cameras).
+2. Decompose the data flow into a collection of concurrent inference requests that are scheduled to be executed in parallel.
+3. Use Async API with callbacks as discussed above.
+4. (optional) You can also use multi-device execution to increase the throughput (discussed in [Multi-Device Execution](#multi-device-execution) section).
+
