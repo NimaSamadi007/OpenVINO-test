@@ -272,7 +272,34 @@ Next POT will be explained in detail and some insights will be provided about NN
 
     + `target_device` stands for the target device for quantizing the model. you can choose from `CPU`, `ANY`, and `GNA`. `ANY` or `CPU` quantizes the model for `CPU`, `GPU` or `VPU` and `GNA` quantizes the model for `GNA`. 
     + I suggest setting `stat_requests_number` to 1 in engine config variable. That helps reducing the memory and CPU usage (otherwise the code will use all the available memory and CPU and hence it will be killed by OS). Also set `eval_requests_number` to 1 for the same reason.
-    + `preset` variable in algorithm config specifies quantization method. `performance` value stands for symmetric quantization of weights and activations and is most efficient accross all the HW. `mixed` values caused symmetric quantization of weights and **asymmetric** quantization of activations. If your model has both negative and positive input values in quantizing operations (such as `ReLU` based networks), this value would be of good choice.
+    + Setting `inplace_statistics` parameter to `true` reduces the amount of memory consumption. However, it'll icrease the quantization time. If you face high memory usage issue, you can use this paramter. 
+    + `preset` variable in algorithm config specifies quantization method. `performance` value stands for symmetric quantization of weights and activations and is most efficient accross all the HW. `mixed` values caused symmetric quantization of weights and **asymmetric** quantization of activations. If your model has both negative and positive input values in quantizing operations (such as `ReLU` based networks), this value would be of good choice and could increase model accuracy.
+    + It's better to quantize the model on the same device that the model inference will be run. It helps reducing [saturation issue](https://docs.openvino.ai/latest/pot_saturation_issue.html#doxid-pot-saturation-issue).
+    + Setting `use_fast_bias` value to `false` helps increasing model accuracy as it uses a different bias correction method.
+    + Some models require special attention while quantizing them. For instance, transformer based models are sensitive to quantization. So, OpenVINO provides a `model_type` variable that you can set it to `transformer` to apply special quantization techniques. As of writing this doc, only `transformer` value is supported.
+    + `range_estimator` parameter can sets how to calculate range of the data that will be quantized. Different method can lead to different accuracy. According to [quantization best practices](https://docs.openvino.ai/latest/pot_docs_BestPractices.html), you can use the following values for a `R-CNN` based networks:
+    ```python
+    {
+        "name": "DefaultQuantization",
+        "params": {
+            "preset": "performance",
+            "stat_subset_size": 300
+
+
+            "activations": {                 # defines activation
+                "range_estimator": {         # defines how to estimate statistics
+                    "max": {                 # right border of the quantizating floating-point range
+                        "aggregator": "max", # use max(x) to aggregate statistics over calibration dataset
+                        "type": "abs_max"    # use abs(max(x)) to get per-sample statistics
+                    }
+                }
+            }
+        }
+    }
+    ```
+    + `stat_subset_size` controls the size of the calibration dataset that is used by POT to calculate statistics for quantization parameters. The higher this value is, the more accurate the quantization will be. However, it will also increase the quantization time. The suggested value is 300.
+    + You can also opt-out some layers from being quantized manually to increase the accuracy. More about this option is mentioned in [here](https://github.com/openvinotoolkit/openvino/blob/master/tools/pot/configs/default_quantization_spec.json).
+    + There is also a [saturation issue](https://docs.openvino.ai/latest/pot_saturation_issue.html) that could decrease the accuracy on older Intel CPUs (those with SSE, AVX-2, and AVX-512 instructions). Refer to the link for more details.
 
     In [this link](https://github.com/openvinotoolkit/openvino/blob/master/tools/pot/openvino/tools/pot/configs/templates/default_quantization_template.json) and [this one](https://github.com/openvinotoolkit/openvino/blob/master/tools/pot/configs/default_quantization_spec.json) provide  templates of avaiable parameters that could be used in quantization.
 
@@ -281,5 +308,8 @@ Next POT will be explained in detail and some insights will be provided about NN
     If accuracy drop is still high and unacceptable, the only option is to use NNCF.
 
 + **NNCF:**
+    NNCF stands for Neural Network Compression Framework. It's a part of OpenVINO toolkit and is used to compress and quantize models. Unlike POT, it's used while training the model. Currently it's supported by PyTorch and TensorFlow. 
+
+    To use it you have to build a training pipeline for your model. This method is not covered in this doc as we are interested in post training optimization methods. However, you can refer to [this doc](https://docs.openvino.ai/latest/tmo_introduction.html) for more information. 
 
 ### Runtime Optimization
