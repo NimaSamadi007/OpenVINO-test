@@ -220,4 +220,66 @@ Compiling a model for a device is a time consuming task. So, it's better to do i
 
 If device supports import/export mechanism, the compiled model is saved to the specified directory and can later be reused. If device doesn't support import/export mechanism, the original model will be used and **no** error will be thrown.
 ___
+
 ## Tuning for Performance
+It is essential to understand what is important for each application. For instance, for a medical surgery robot, latency is more important than throughput. However, for a self-driving car, throughput is more important than latency. In our case, we are more interested in throughput and this document will focus on these methods.
+
+Performance optimization techniques are divided into two categories:
+1. [Model optimization](#model-optimization): It's about optimizing the model itself. For instance, quantizing the model to reduce the model size and increase the inference speed. 
+2. [Runtime optimization](#runtime-optimization): Tuning parameters of model execution to improve performance. For instance, setting the number of streams to increase the throughput.
+
+More information about each category will be provided in the following subgsections.
+
+### Model Optimization
+There are three tools that can be used to optimize inference at model level:
+1. Model optimizer: Most optimizations are done by default and other techniques are explained before (for example, preprocessing embedding and static shapes).
+2. Post-training optimization (POT): Post-training optimizations such as quantizing the model. It doesn't need model fine-tuning or retraining.
+3. Neural network compression framework (NNCF): Advanced methods of optimizing the model that is run during the training. For instance, it can be used with Pytorch or Tensorflow. 
+
+The following figure summarizes the process of model optimization:
+![model optimization workflow](./imgs/WHAT_TO_USE.svg)
+
+And the following figure is a more detailed version of the previous figure:
+![detailed model optimization workflow](./imgs/DEVELOPMENT_FLOW_V3_crunch.svg)
+
+Next POT will be explained in detail and some insights will be provided about NNCF. 
+
++ **POT:**
+
+    To apply post-training optimizations, you need to have the following:
+    + FP32 or FP16 model in IR format
+    + A representative calibration dataset, with about 300 images
+    + If accuracy is not acceptable, a validation dataset and a accuracy metric
+    
+    POT can quantize models with 2 methods:
+    1. Default quantization: Recommended method that provides fast and quite accurate results and requires only an unanotated dataset.
+    2. Accuracy-aware quantization: Advanced method that allows to keep the accuracy loss at a specified level. It requires an annotated dataset.
+
+    OpenVINO inserts `FakeQuantize` layers into the model. During quantization, `FakeQuantize` parameters are fine tuned to meet accuracy requirements. The math behind the quantization can be found in [here](https://docs.openvino.ai/2020.4/pot_compression_algorithms_quantization_README.html) and will not be covered in this document. Fake in `FakeQuantize` stands for the fact that the output of this layer is floating point and not integer. The following snippet shows how `FakeQuantize` works:
+    ```python
+    if x <= min(input_low, input_high):
+        output = output_low
+    elif x > max(input_low, input_high):
+        output = output_high
+    else:
+        # input_low < x <= input_high
+        output = round((x - input_low) / (input_high - input_low) * (levels-1)) / (levels-1) * (output_high - output_low) + output_low    
+    ```
+
+    In accuracy-aware quantization first default quantization is applied and then the accuracy is measured (on the given validation set). If the accuracy drop is unacceptable, the model de-quantizes the layers that are responsible for the accuracy drop (from int8 to FP32). Again the accuracy is measured and the process continues until the accuracy drop is acceptable. This method should only be used if the accuracy drop is significant. Note that this is achieved by trading off the inference speed for accuracy. 
+
+    **Some tips on default quantization:**
+
+    + `target_device` stands for the target device for quantizing the model. you can choose from `CPU`, `ANY`, and `GNA`. `ANY` or `CPU` quantizes the model for `CPU`, `GPU` or `VPU` and `GNA` quantizes the model for `GNA`. 
+    + I suggest setting `stat_requests_number` to 1 in engine config variable. That helps reducing the memory and CPU usage (otherwise the code will use all the available memory and CPU and hence it will be killed by OS). Also set `eval_requests_number` to 1 for the same reason.
+    + `preset` variable in algorithm config specifies quantization method. `performance` value stands for symmetric quantization of weights and activations and is most efficient accross all the HW. `mixed` values caused symmetric quantization of weights and **asymmetric** quantization of activations. If your model has both negative and positive input values in quantizing operations (such as `ReLU` based networks), this value would be of good choice.
+
+    In [this link](https://github.com/openvinotoolkit/openvino/blob/master/tools/pot/openvino/tools/pot/configs/templates/default_quantization_template.json) and [this one](https://github.com/openvinotoolkit/openvino/blob/master/tools/pot/configs/default_quantization_spec.json) provide  templates of avaiable parameters that could be used in quantization.
+
+    This doc doesn't cover POT in detail. For more information on how to use it, refer to [this](https://docs.openvino.ai/latest/pot_default_quantization_usage.html).
+
+    If accuracy drop is still high and unacceptable, the only option is to use NNCF.
+
++ **NNCF:**
+
+### Runtime Optimization
