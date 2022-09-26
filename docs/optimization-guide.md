@@ -265,17 +265,7 @@ Next POT will be explained in detail and some insights will be provided about NN
     1. Default quantization: Recommended method that provides fast and quite accurate results and requires only an unanotated dataset.
     2. Accuracy-aware quantization: Advanced method that allows to keep the accuracy loss at a specified level. It requires an annotated dataset.
 
-    OpenVINO inserts `FakeQuantize` layers into the model. During quantization, `FakeQuantize` parameters are fine tuned to meet accuracy requirements. The math behind the quantization can be found in [here](https://docs.openvino.ai/2020.4/pot_compression_algorithms_quantization_README.html) and will not be covered in this document. Fake in `FakeQuantize` stands for the fact that the output of this layer is floating point and not integer. The following snippet shows how `FakeQuantize` works:
-    ```python
-    if x <= min(input_low, input_high):
-        output = output_low
-    elif x > max(input_low, input_high):
-        output = output_high
-    else:
-        # input_low < x <= input_high
-        output = round((x - input_low) / (input_high - input_low) * (levels-1)) / (levels-1) * (output_high - output_low) + output_low    
-    ```
-    Refer to [**this document**](./OpenVINO-quantization.md) for more information about OpenVINO quantization and `FakeQuantize` layer.
+    Refer to [**this document**](./OpenVINO-quantization.md) for more information about OpenVINO quantization.
 
     In accuracy-aware quantization first default quantization is applied and then the accuracy is measured (on the given validation set). If the accuracy drop is unacceptable, the model de-quantizes the layers that are responsible for the accuracy drop (from int8 to FP32). Again the accuracy is measured and the process continues until the accuracy drop is acceptable. This method should only be used if the accuracy drop is significant. Note that this is achieved by trading off the inference speed for accuracy. 
 
