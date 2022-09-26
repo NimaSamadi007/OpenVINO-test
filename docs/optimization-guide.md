@@ -7,7 +7,17 @@ Valuable tools are provided within OpenVINO environment to help data scientists 
 + [Model Optimizer](#model-optimizer)
 + [Deploying with OpenVINO Runtime](#deploying-with-openvino-runtime)
 + [Working with Devices](#working-with-devices)
+    + [CPU Plugin Capabilities](#cpu-plugin-capabilities)
+    + [GPU Plugin Capabilities](#gpu-plugin-capabilities)
+    + [VPU Plugin Capabilities](#vpu-plugin-capabilities)
+    + [GNA Plugin Capabilities](#gna-plugin-capabilities)
+    + [Automatic Device Selection](#automatic-device-selection)
+    + [Multi-device Execution](#multi-device-execution)
+    + [Multi-stream Execution](#multi-stream-execution)
+    + [Model Caching](#model-caching)
 + [Tuning for Performance](#tuning-for-performance)
+    + [Model Optimization](#model-optimization)
+    + [Runtime Optimization](#runtime-optimization)
 ___
 ## Model Optimizer
 Model optimizer is used to convert the AI models to OpenVINO IR format. IR stands for intermediate representation. Every converted model is consisted of (at least) two files: 1) `.xml` file which contains the network topology and 2) `.bin` file which contains the weights of the network. Later, OpenVINO runtime loades the IR files and executes the model. 
@@ -265,6 +275,7 @@ Next POT will be explained in detail and some insights will be provided about NN
         # input_low < x <= input_high
         output = round((x - input_low) / (input_high - input_low) * (levels-1)) / (levels-1) * (output_high - output_low) + output_low    
     ```
+    Refer to [**this document**](./OpenVINO-quantization.md) for more information about OpenVINO quantization and `FakeQuantize` layer.
 
     In accuracy-aware quantization first default quantization is applied and then the accuracy is measured (on the given validation set). If the accuracy drop is unacceptable, the model de-quantizes the layers that are responsible for the accuracy drop (from int8 to FP32). Again the accuracy is measured and the process continues until the accuracy drop is acceptable. This method should only be used if the accuracy drop is significant. Note that this is achieved by trading off the inference speed for accuracy. 
 
