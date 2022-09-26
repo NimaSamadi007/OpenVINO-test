@@ -30,7 +30,7 @@ In quantization algorithms, a specific range of input values ($[a, b]$) is mappe
 + **example:** We have 8 bits to represent a number (random variable) that can take values between -1 and 2. We want to map this range to the range of 8-bit unsigned integers (0-255).
 
 The example shows the purpose of quantization. There are many ways to map the input range to the output range. The most common way is to use linear mapping. In linear mapping, the input range is divided into $2^n$ equal intervals. Then for each interval, a number is assigned to it. In OpenVINO, the mapping is done as follows:
-
+```math
 $$
 \begin{align*}
 &\mathrm{output} = \frac{\mathrm{round}((\mathrm{clamp}(input, input\_low, input\_high) - input\_low)*s) }{s} + input\_low \\
@@ -38,20 +38,24 @@ $$
 &s = \frac{\mathrm{levels}-1}{input\_high - input\_low} \\
 \end{align*}
 $$
+```
 And $\mathrm{levels}$ specifies the number of quantization levels that can be represented. For example, if we have 8 bits, $\mathrm{levels} = 2^8 = 256$. 
 
 OpenVINO supports two types of quantization modes: symmetric and asymmetric. In symmetric mode, the floating-point zero is quantized to the integer zero. However, in asymmetric mode, the floating-point zero is not necessarily quantized to the integer zero and it can be any integer number. But, in both modes, the floating-point zero is mapped directly to the quant witout any rounding.
 
 ### Symmetric quantization
 In this method, $input\_low$ and $input\_high$ are computed as follows:
+```math
 $$
 \begin{align*}
 input\_low &= scale * \frac{level\_low}{level\_high} \\
 input\_high &= scale \\
 \end{align*}
 $$
+```
 $scale$ parameters is tuned during the quantization process. $level\_low$ and $level\_high$ are the lowest and highest quantization levels respectively. So, for quantizing neural network parameters the following values are used:
 + For weights:
+    ```math
     $$
     \begin{align*}
     level\_low &= -2^{bits-1}+1 \\
@@ -59,7 +63,9 @@ $scale$ parameters is tuned during the quantization process. $level\_low$ and $l
     levels &= 2^{bits}-1
     \end{align*}
     $$
+    ```
 + For unsigned activations:
+    ```math
     $$
     \begin{align*}
     level\_low &= 0 \\
@@ -67,7 +73,9 @@ $scale$ parameters is tuned during the quantization process. $level\_low$ and $l
     levels &= 2^{bits}
     \end{align*}
     $$
+    ```
 + For signed activations:
+    ```math
     $$
     \begin{align*}
     level\_low &= -2^{bits-1} \\
@@ -75,17 +83,21 @@ $scale$ parameters is tuned during the quantization process. $level\_low$ and $l
     levels &= 2^{bits}
     \end{align*}
     $$
+    ```
 Which $bits$ is the number of quantization bits (e.g. 8 bits).
 
 ### Asymmetric quantization
 In asymmetric quantization, $input\_low$ and $input\_range$ are tuned druing the quantization process. For 8 bits quantization, the following values are used:
+```math
 $$
 \begin{align*}
 input\_high &= input\_low + input\_range \\
 levels &= 256
 \end{align*}
 $$
+```
 And for weights and activations, the following values are used:
+```math
 $$
 \begin{align*}
 input\_low' &= min(input\_low, 0) \\
@@ -100,4 +112,5 @@ input\_low'', input\_high', \quad input\_high'' - input\_low' \leq input\_high'-
 \end{cases}
 \end{align*}
 $$
+```
 ## Implementation details
