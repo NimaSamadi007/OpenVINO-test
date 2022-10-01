@@ -8,3 +8,4 @@ So, the purpose of OpenVINO is to enhance the performance of AI inference. It is
 + [Installation](docs/installation.md)
 + [Optimization Guide](docs/optimization-guide.md)
 + [Quantization Detail](docs/OpenVINO-quantization.md)
++ [Timing Benchmarks](docs/timing-benchmark.md)
