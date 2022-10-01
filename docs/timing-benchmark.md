@@ -1,4 +1,5 @@
 # Timing Benchmarks
+I've run timing benchmarks to compare the benifits of quantizing models with `pot` default quantization method. 
 
 The following table shows important CPU features of each system:
 
@@ -13,7 +14,7 @@ The following table shows important CPU features of each system:
 
 <br>
 
-**Results:**
+## Results:
 
 <table style="text-align:center">
     <thead>
@@ -135,7 +136,7 @@ The following table shows important CPU features of each system:
     </tbody>
 </table>
 
-The following table shows the amount of improvement in FPS and latency for each model on server and laptop:
+The following table shows the FPS and latency improvement value for each model on server and laptop:
 
 <table style="text-align: center;">
     <thead>
@@ -212,6 +213,15 @@ The following table shows the amount of improvement in FPS and latency for each 
     </tbody>
 </table>
 
+The following figures visualize the benchmark results:
+|Average FPS vs Device|Average Latency vs Device|
+|:-:|:-:|
+|![FPS vs Device](./../utils/fps-vs-device.png)|![Latency vs Device](./../utils/latency-vs-device.png)|
+
+|FPS Speedup|Latency Speedup|
+|:-:|:-:|
+|![FPS speedup](./../utils/fps-speedup-vs-model.png)|![Latency speedup](./../utils/latency-speedup-vs-model.png)|
+
 **Notes:**
 1. C++ version of benchmark_app is used
 2. Without hint and only one thread, stream, inference request
@@ -219,3 +229,6 @@ The following table shows the amount of improvement in FPS and latency for each 
 
 	```./benchmark_app -hint none -d CPU -m ~/openvino-test/models/fscls/b12/b12.xml -data_shape "[1,3,320,320]" -ip u8 -op u8 -inference_only -nthreads 1 -nireq 1 -nstreams 1 -progress```
 4. The input shape is: [1, 3, 320, 320] for all models
+
+## Analysis
+In this section, we will analyze the benchmark results and discuss why the performance of the models is different on different devices.
