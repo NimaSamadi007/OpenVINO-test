@@ -41,7 +41,7 @@ The following steps are taken from [OpenVINO build from source](https://github.c
     ```bash
     cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_INTEL_GPU=OFF -DENABLE_PYTHON=ON -DPYTHON_EXECUTABLE=`which python` -DENABLE_WHEEL=ON ..
     ```
-    **Note:** If you have `numeric_limits is not a member of std` error, just disable building GNA plugin by adding `-DENABLE_GNA=OFF` to the CMake command. 
+    **Note:** If you have `numeric_limits is not a member of std` error, just disable building GNA plugin by adding `-DENABLE_INTEL_GNA=OFF` to the CMake command. 
 5. Build OpenVINO:
     ```bash
     make 
