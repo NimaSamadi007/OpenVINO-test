@@ -33,7 +33,7 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "scrfd-quan": [13.78, 72.46]
                 }
                },
-               {"name": "Ryzen 9", "results": 
+               {"name": "Ryzen 9 5800X", "results": 
                 {"b12": [9.23, 108.27],
                 "b12-quan": [17.20, 58.07],
                 "b10": [27.24, 36.67],
@@ -49,5 +49,14 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "b10-quan": [19.41, 51.45],
                 "scrfd": [12.81, 77.99],
                 "scrfd-quan": [14.33, 69.69]
+                }
+               },
+               {"name": "Ryzen 7 5800X", "results": 
+                {"b12": [9.42, 106.15],
+                "b12-quan": [17.44, 57.31],
+                "b10": [26.39, 37.87],
+                "b10-quan": [45.23, 22.09],
+                "scrfd": [18.77, 53.25],
+                "scrfd-quan": [35.96, 27.79]
                 }
                }]

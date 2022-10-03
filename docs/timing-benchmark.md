@@ -11,6 +11,7 @@ The following table shows important CPU features of each system:
 |Xeon E5-2680 v4 @ 2.40GHz|SSE4_2<br>AVX2|213.233.161.119|
 |Ryzen 9 5800X|SSE4_2<br>AVX2| 213.233.181.171 |
 |Epyc 7302 | SSE4_1<br>SSE4a<br>AVX2 | 213.233.181.155 |
+|Ryzen 7 5800X|SSE4_2<br>SSE4a<br>AVX2| 213.233.181.170 |
 
 <br>
 
@@ -26,8 +27,11 @@ The following table shows important CPU features of each system:
             <th colspan=2><center>Server<br>(Xeon E5-2680 v4 @ 2.40GHz)</center></th>
 			<th colspan=2><center>Server<br>(Ryzen 9 5800X)</center></th>
 			<th colspan=2><center>Server<br>(Epyc 7302)</center></th>
+			<th colspan=2><center>Server<br>(Ryzen 7 5800X)</center></th>
         </tr>
 		<tr>
+			<th><center>FPS<br>(avg)</center></th>
+			<th><center>Latency<br>(ms)</center></th>
 			<th><center>FPS<br>(avg)</center></th>
 			<th><center>Latency<br>(ms)</center></th>
 			<th><center>FPS<br>(avg)</center></th>
@@ -57,6 +61,8 @@ The following table shows important CPU features of each system:
 			<td> 108.27 </td>
 			<td> 6.50 </td>
 			<td> 153.67 </td>
+			<td> 9.42 </td>
+			<td> 106.15 </td>
 		</tr>
 		<tr>
 			<td> b12-quan </td>
@@ -72,6 +78,8 @@ The following table shows important CPU features of each system:
 			<td> 58.07 </td>
 			<td> 6.96 </td>
 			<td> 143.56 </td>
+			<td> 17.44 </td>
+			<td> 57.31 </td>
 		</tr>
 		<tr>
 			<td> b10 </td>
@@ -87,6 +95,8 @@ The following table shows important CPU features of each system:
 			<td> 36.67 </td>
 			<td> 18.22 </td>
 			<td> 54.82 </td>
+			<td> 26.39 </td>
+			<td> 37.87 </td>
 		</tr>
 		<tr>
 			<td> b10-quan </td>
@@ -102,6 +112,8 @@ The following table shows important CPU features of each system:
 			<td> 21.80 </td>
 			<td> 19.41 </td>
 			<td> 51.45 </td>
+			<td> 45.23 </td>
+			<td> 22.09 </td>
 		</tr>
 		<tr>
 			<td> scrfd_10g_bnkps </td>
@@ -117,6 +129,8 @@ The following table shows important CPU features of each system:
 			<td> 52.18 </td>
 			<td> 12.81 </td>
 			<td> 77.99 </td>
+			<td> 18.77 </td>
+			<td> 53.25 </td>
 		</tr>
 		<tr>
 			<td> scrfd_10g_bnkps-quan </td>
@@ -132,6 +146,8 @@ The following table shows important CPU features of each system:
 			<td> 27.36 </td>
 			<td> 14.33 </td>
 			<td> 69.69 </td>
+			<td> 35.96 </td>
+			<td> 27.79 </td>
 		</tr>
     </tbody>
 </table>
@@ -148,8 +164,11 @@ The following table shows the FPS and latency improvement value for each model o
             <th colspan=2><center>Server<br>(Xeon E5-2680 v4 @ 2.40GHz)</center></th>
 			<th colspan=2><center>Server<br>(Ryzen 9 5800X)</center></th>
 			<th colspan=2><center>Server<br>(Epyc 7302)</center></th>
+			<th colspan=2><center>Server<br>(Ryzen 7 5800X)</center></th>
         </tr>
 		<tr>
+			<th><center>FPS <br> improvement</center></th>
+			<th><center>Latency <br> improvement</center></th>
 			<th><center>FPS <br> improvement</center></th>
 			<th><center>Latency <br> improvement</center></th>
 			<th><center>FPS <br> improvement</center></th>
@@ -179,6 +198,8 @@ The following table shows the FPS and latency improvement value for each model o
 			<td> 46.36% </td>
 			<td> 7.08% </td>
 			<td> 6.57% </td>
+			<td> 85.14% </td>
+			<td> 46.01% </td>
 		</tr>
 		<tr>
 			<td> b10 </td>
@@ -194,6 +215,8 @@ The following table shows the FPS and latency improvement value for each model o
 			<td> 40.55% </td>
 			<td> 6.53% </td>
 			<td> 6.15% </td>
+			<td> 71.4% </td>
+			<td> 41.67% </td>
 		</tr>
 		<tr>
 			<td> scrfd_10g_bnkps </td>
@@ -209,6 +232,8 @@ The following table shows the FPS and latency improvement value for each model o
 			<td> 47.57% </td>
 			<td> 11.86% </td>
 			<td> 10.64% </td>
+			<td> 91.58% </td>
+			<td> 47.81% </td>
 		</tr>
     </tbody>
 </table>

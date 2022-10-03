@@ -66,6 +66,7 @@ def main():
         print(f"Plotting FPS speed up for device {device_name}")
         fps_speedup = [ (results[i].getFPS(model_name+"-quan") - results[i].getFPS(model_name)) / results[i].getFPS(model_name) * 100 
                         for model_name in model_names]
+        print(fps_speedup)
         plt.plot(model_names, fps_speedup, label=device_name)
     plt.xlabel("Model")
     plt.ylabel("speedup (%)")
@@ -82,6 +83,7 @@ def main():
         print(f"Plotting Latency speed up for device {device_name}")
         latency_speedup = [ -(results[i].getLatency(model_name+"-quan") - results[i].getLatency(model_name)) / results[i].getLatency(model_name) * 100 
                         for model_name in model_names]
+        print(latency_speedup)
         plt.plot(model_names, latency_speedup, label=device_name)
     plt.xlabel("Model")
     plt.ylabel("speedup (%)")
