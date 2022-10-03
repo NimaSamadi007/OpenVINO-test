@@ -149,6 +149,40 @@ The following table shows important CPU features of each system:
 			<td> 35.96 </td>
 			<td> 27.79 </td>
 		</tr>
+		<tr>
+			<td> glintr18 </td>
+			<td> 6.51 </td>
+			<td> 153.66 </td>
+			<td>  </td>
+			<td>  </td>
+			<td>  </td>
+			<td>  </td>
+			<td> 14.19 </td>
+			<td> 70.39 </td>
+			<td> 23.65 </td>
+			<td> 42.26 </td>
+			<td> 16.58 </td>
+			<td> 60.22 </td>
+			<td> 24.06 </td>
+			<td> 41.54 </td>
+		</tr>
+		<tr>
+			<td> glintr18-quan </td>
+			<td> 11.33 </td>
+			<td> 88.20 </td>
+			<td>  </td>
+			<td>  </td>
+			<td>  </td>
+			<td>  </td>
+			<td> 16.30 </td>
+			<td> 61.23 </td>
+			<td> 45.98 </td>
+			<td> 21.73 </td>
+			<td> 17.04 </td>
+			<td> 58.57 </td>
+			<td> 46.23 </td>
+			<td> 21.61 </td>
+		</tr>
     </tbody>
 </table>
 
@@ -235,6 +269,23 @@ The following table shows the FPS and latency improvement value for each model o
 			<td> 91.58% </td>
 			<td> 47.81% </td>
 		</tr>
+		<tr>
+			<td> glintr18 </td>
+			<td> 74.09% </td>
+			<td> 42.60% </td>
+			<td>  </td>
+			<td>  </td>
+			<td>  </td>
+			<td>  </td>
+			<td> 14.87% </td>
+			<td> 13.01% </td>
+			<td> 94.41% </td>
+			<td> 48.59% </td>
+			<td> 2.77% </td>
+			<td> 3.24% </td>
+			<td> 92.14% </td>
+			<td> 47.98% </td>
+		</tr>
     </tbody>
 </table>
 
@@ -250,9 +301,11 @@ The following figures visualize the benchmark results:
 **Notes:**
 1. C++ version of benchmark_app is used
 2. Without hint and only one thread, stream, inference request
-3. The following command is executed:
+3. The following command is executed for b12, b10, and scrfd_10g_bnkps:
 
 	```./benchmark_app -hint none -d CPU -m ~/openvino-test/models/fscls/b12/b12.xml -data_shape "[1,3,320,320]" -ip u8 -op u8 -inference_only -nthreads 1 -nireq 1 -nstreams 1 -progress```
+
+	And for glintr18, only `data_shape` flag is changed to `[1,3,112,112]` (glintr18 accepts static input and only batch size is dynamic).
 4. The input shape is: [1, 3, 320, 320] for all models
 
 ## Analysis
