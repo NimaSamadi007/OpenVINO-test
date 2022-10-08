@@ -3,15 +3,15 @@ I've run timing benchmarks to compare the benifits of quantizing models with `po
 
 The following table shows important CPU features of each system:
 
-|CPU model|Features|IP address|
-|:--:|:---:|:---:|
-|Core i5-7200U @ 2.50GHz|SSE4_2<br>AVX2|127.0.0.1|
-|Core i7-6700HQ @ 2.60 GHz | SSE4_2<br>AVX2| 127.0.0.1 |
-|Core i5-9300H @ 2.40 GHz | SSE4_2<br>AVX2| 127.0.0.1 |
-|Xeon E5-2680 v4 @ 2.40GHz|SSE4_2<br>AVX2|213.233.161.119|
-|Ryzen 9 5800X|SSE4_2<br>AVX2| 213.233.181.171 |
-|Epyc 7302 | SSE4_1<br>SSE4a<br>AVX2 | 213.233.181.155 |
-|Ryzen 7 5800X|SSE4_2<br>SSE4a<br>AVX2| 213.233.181.170 |
+|Index|CPU model|Features|IP address|
+|:--:|:--:|:---:|:---:|
+|1|Core i5-7200U @ 2.50GHz|SSE4_2<br>AVX2|127.0.0.1|
+|2|Core i7-6700HQ @ 2.60 GHz | SSE4_2<br>AVX2| 127.0.0.1 |
+|3|Core i5-9300H @ 2.40 GHz | SSE4_2<br>AVX2| 127.0.0.1 |
+|4|Xeon E5-2680 v4 @ 2.40GHz|SSE4_2<br>AVX2|213.233.161.119|
+|5|Ryzen 9 5800X|SSE4_2<br>AVX2| 213.233.181.171 |
+|6|Epyc 7302 | SSE4_1<br>SSE4a<br>AVX2 | 213.233.181.155 |
+|7|Ryzen 7 5800X|SSE4_2<br>SSE4a<br>AVX2| 213.233.181.170 |
 
 <br>
 
@@ -310,3 +310,5 @@ The following figures visualize the benchmark results:
 
 ## Analysis
 In this section, we will analyze the benchmark results and discuss why the performance of the models is different on different devices.
+
+I have gathered all CPU flags that exist on each device. The `getCPUFlags` script in `cpu-flags` directory is used to collect the flags. All CPU flags are listed in `cpu-flags` directory and indexed according to the first table in this document.
