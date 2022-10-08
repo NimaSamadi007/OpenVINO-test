@@ -4,7 +4,9 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "b10": [6.41, 156.09],
                 "b10-quan": [9.91, 100.84],
                 "scrfd": [5.21, 192.09],
-                "scrfd-quan": [9.26, 107.99]}
+                "scrfd-quan": [9.26, 107.99],
+                "glintr18": [6.51, 153.66],
+                "glintr18-quan": [11.33, 88.20]}
                },
                {"name": "core i7-6700HQ", "results": 
                 {"b12": [6.40, 156.16],
@@ -12,8 +14,9 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "b10": [17.61, 56.68],
                 "b10-quan": [25.60, 36.38],
                 "scrfd": [13.45, 74.24],
-                "scrfd-quan": [23.11, 43.18]
-                }
+                "scrfd-quan": [23.11, 43.18],
+                "glintr18": [15.84, 63.06],
+                "glintr18-quan": [24.74, 40.36]}
                },
                {"name": "core i5-9300H", "results": 
                 {"b12": [8.02, 124.66],
@@ -21,8 +24,9 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "b10": [22.37, 44.64],
                 "b10-quan": [32.37, 30.86],
                 "scrfd": [16.65, 59.98],
-                "scrfd-quan": [28.88, 34.56]
-                }
+                "scrfd-quan": [28.88, 34.56],
+                "glintr18": [-1, -1],
+                "glintr18-quan": [-1, -1]}
                },
                {"name": "Xeon E5-2680", "results": 
                 {"b12": [5.61, 178.29],
@@ -30,8 +34,9 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "b10": [15.23, 65.54],
                 "b10-quan": [17.47, 57.69],
                 "scrfd": [11.57, 86.37],
-                "scrfd-quan": [13.78, 72.46]
-                }
+                "scrfd-quan": [13.78, 72.46],
+                "glintr18": [14.19, 70.39],
+                "glintr18-quan": [16.30, 61.23]}
                },
                {"name": "Ryzen 9 5800X", "results": 
                 {"b12": [9.23, 108.27],
@@ -39,8 +44,9 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "b10": [27.24, 36.67],
                 "b10-quan": [45.82, 21.80],
                 "scrfd": [19.15, 52.18],
-                "scrfd-quan": [36.50, 27.36]
-                }
+                "scrfd-quan": [36.50, 27.36],
+                "glintr18": [23.65, 42.26],
+                "glintr18-quan": [45.98, 21.73]}
                },
                {"name": "Epyc 7302", "results": 
                 {"b12": [6.50, 153.67],
@@ -48,8 +54,9 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "b10": [18.22, 54.82],
                 "b10-quan": [19.41, 51.45],
                 "scrfd": [12.81, 77.99],
-                "scrfd-quan": [14.33, 69.69]
-                }
+                "scrfd-quan": [14.33, 69.69],
+                "glintr18": [16.58, 60.22],
+                "glintr18-quan": [17.04, 58.57]}               
                },
                {"name": "Ryzen 7 5800X", "results": 
                 {"b12": [9.42, 106.15],
@@ -57,6 +64,7 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "b10": [26.39, 37.87],
                 "b10-quan": [45.23, 22.09],
                 "scrfd": [18.77, 53.25],
-                "scrfd-quan": [35.96, 27.79]
-                }
+                "scrfd-quan": [35.96, 27.79],
+                "glintr18": [24.06, 41.54],
+                "glintr18-quan": [46.23, 21.61]}               
                }]

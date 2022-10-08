@@ -23,7 +23,7 @@ def main():
     results = []
     for raw_res in raw_results:
         results.append(device(raw_res))
-    model_names = ["b12", "b12-quan", "b10", "b10-quan", "scrfd", "scrfd-quan"]
+    model_names = ["b12", "b12-quan", "b10", "b10-quan", "scrfd", "scrfd-quan", "glintr18", "glintr18-quan"]
 
     print("FPS vs Devices\n========================")
     figure(figsize=(12, 10), dpi=120)

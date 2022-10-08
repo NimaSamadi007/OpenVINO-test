@@ -153,8 +153,8 @@ The following table shows important CPU features of each system:
 			<td> glintr18 </td>
 			<td> 6.51 </td>
 			<td> 153.66 </td>
-			<td>  </td>
-			<td>  </td>
+			<td> 15.84 </td>
+			<td> 63.06 </td>
 			<td>  </td>
 			<td>  </td>
 			<td> 14.19 </td>
@@ -170,8 +170,8 @@ The following table shows important CPU features of each system:
 			<td> glintr18-quan </td>
 			<td> 11.33 </td>
 			<td> 88.20 </td>
-			<td>  </td>
-			<td>  </td>
+			<td> 24.74 </td>
+			<td> 40.36 </td>
 			<td>  </td>
 			<td>  </td>
 			<td> 16.30 </td>
@@ -273,8 +273,8 @@ The following table shows the FPS and latency improvement value for each model o
 			<td> glintr18 </td>
 			<td> 74.09% </td>
 			<td> 42.60% </td>
-			<td>  </td>
-			<td>  </td>
+			<td> 56.19% </td>
+			<td> 40.0% </td>
 			<td>  </td>
 			<td>  </td>
 			<td> 14.87% </td>
