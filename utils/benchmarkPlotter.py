@@ -59,7 +59,7 @@ def main():
     print("========================")
     #######################################################################################
     print("FPS speedup vs Devices\n========================")
-    model_names = ["b12", "b10", "scrfd"]
+    model_names = ["b12", "b10", "scrfd", "glintr18"]
 
     figure(figsize=(12, 10), dpi=120)
     for i, device_name in enumerate(device_names):

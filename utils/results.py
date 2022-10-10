@@ -25,8 +25,8 @@ raw_results = [{"name": "core i5-7200U", "results":
                 "b10-quan": [32.37, 30.86],
                 "scrfd": [16.65, 59.98],
                 "scrfd-quan": [28.88, 34.56],
-                "glintr18": [-1, -1],
-                "glintr18-quan": [-1, -1]}
+                "glintr18": [19.87, 50.28],
+                "glintr18-quan": [30.57, 32.64]}
                },
                {"name": "Xeon E5-2680", "results": 
                 {"b12": [5.61, 178.29],

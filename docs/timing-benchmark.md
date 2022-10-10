@@ -155,8 +155,8 @@ The following table shows important CPU features of each system:
 			<td> 153.66 </td>
 			<td> 15.84 </td>
 			<td> 63.06 </td>
-			<td>  </td>
-			<td>  </td>
+			<td> 19.87 </td>
+			<td> 50.28 </td>
 			<td> 14.19 </td>
 			<td> 70.39 </td>
 			<td> 23.65 </td>
@@ -172,8 +172,8 @@ The following table shows important CPU features of each system:
 			<td> 88.20 </td>
 			<td> 24.74 </td>
 			<td> 40.36 </td>
-			<td>  </td>
-			<td>  </td>
+			<td> 30.57 </td>
+			<td> 32.64 </td>
 			<td> 16.30 </td>
 			<td> 61.23 </td>
 			<td> 45.98 </td>
@@ -275,8 +275,8 @@ The following table shows the FPS and latency improvement value for each model o
 			<td> 42.60% </td>
 			<td> 56.19% </td>
 			<td> 40.0% </td>
-			<td>  </td>
-			<td>  </td>
+			<td> 53.85% </td>
+			<td> 35.08% </td>
 			<td> 14.87% </td>
 			<td> 13.01% </td>
 			<td> 94.41% </td>
