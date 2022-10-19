@@ -11,7 +11,7 @@ The following table shows important CPU features of each system:
 |4|Xeon E5-2680 v4 @ 2.40GHz|SSE4_2<br>AVX2|213.233.161.119|
 |5|Ryzen 9 5800X|SSE4_2<br>AVX2| 213.233.181.171 |
 |6|Epyc 7302 | SSE4_1<br>SSE4a<br>AVX2 | 213.233.181.155 |
-|7|Ryzen 7 5800X|SSE4_2<br>SSE4a<br>AVX2| 213.233.181.170 |
+|7|Ryzen 7 5800X|SSE4_2<br>SSE4a<br>AVX2| 213.233.181.172 |
 
 <br>
 
@@ -308,7 +308,82 @@ The following figures visualize the benchmark results:
 	And for glintr18, only `data_shape` flag is changed to `[1,3,112,112]` (glintr18 accepts static input and only batch size is dynamic).
 4. The input shape is: [1, 3, 320, 320] for all models
 
-## Analysis
-In this section, we will analyze the benchmark results and discuss why the performance of the models is different on different devices.
+## Effect of Input Size on Performance
+As you might guess, the input size has a significant effect on the performance of the model. I have only tested the models on my laptop (Core i5 7200 U) for three input sizes: 160x160, 320x320, and 640x640. The following table shows the results:
 
-I have gathered all CPU flags that exist on each device. The `getCPUFlags` script in `cpu-flags` directory is used to collect the flags. All CPU flags are listed in `cpu-flags` directory and indexed according to the first table in this document.
+<table style="text-align:center">
+    <thead>
+        <tr>
+			<th rowspan=2><center>Model</center></th>
+            <th colspan=2><center>input size<br>160x160</center></th>
+            <th colspan=2><center>input size<br>320x320</center></th>
+            <th colspan=2><center>input size<br>640x640</center></th>
+        </tr>
+		<tr>
+			<th><center>FPS<br>(avg)</center></th>
+			<th><center>Latency<br>(ms)</center></th>
+			<th><center>FPS<br>(avg)</center></th>
+			<th><center>Latency<br>(ms)</center></th>
+			<th><center>FPS<br>(avg)</center></th>
+			<th><center>Latency<br>(ms)</center></th>
+		</tr>
+    </thead>
+    <tbody>
+		<tr>
+			<td> b12 </td>
+			<td> 8.67 </td>
+			<td> 155.25 </td>
+			<td> 2.46 </td>
+			<td> 406.09 </td>
+			<td> 0.65 </td>
+			<td> 1527.98 </td>
+		</tr>
+		<tr>
+			<td> b12-quan </td>
+			<td> 14.46 </td>
+			<td> 69.12 </td>
+			<td> 3.85 </td>
+			<td> 259.71 </td>
+			<td> 1.02 </td>
+			<td> 977.16 </td>
+		</tr>
+		<tr>
+			<td> b10 </td>
+			<td> 21.55 </td>
+			<td> 46.38 </td>
+			<td> 6.41 </td>
+			<td> 156.09 </td>
+			<td> 1.65 </td>
+			<td> 606.93 </td>
+		</tr>
+		<tr>
+			<td> b10-quan </td>
+			<td> 33.88 </td>
+			<td> 29.49 </td>
+			<td> 9.91 </td>
+			<td> 100.84 </td>
+			<td> 2.42 </td>
+			<td> 412.60 </td>
+		</tr>
+		<tr>
+			<td> scrfd_10g_bnkps </td>
+			<td> 19.07 </td>
+			<td> 52.41 </td>
+			<td> 5.21 </td>
+			<td> 192.09 </td>
+			<td> 1.36 </td>
+			<td> 735.44 </td>
+		</tr>
+		<tr>
+			<td> scrfd_10g_bnkps-quan </td>
+			<td> 30.78 </td>
+			<td> 32.46 </td>
+			<td> 9.26 </td>
+			<td> 107.99 </td>
+			<td> 2.21 </td>
+			<td> 451.83 </td>
+		</tr>
+    </tbody>
+</table>
+
+Note that face recognition model results are not included in the table as glintr18 only accepts inputs of size 112x112.
