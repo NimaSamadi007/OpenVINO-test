@@ -387,3 +387,13 @@ As you might guess, the input size has a significant effect on the performance o
 </table>
 
 Note that face recognition model results are not included in the table as glintr18 only accepts inputs of size 112x112.
+
+The following figures visualize the benchmark results and relative speedup with respect to the input size:
+
+|Average FPS vs Input Size|Average Latency vs Input Size|
+|:-:|:-:|
+|![FPS vs input](./../utils/fps-vs-input-size.png)|![Latency vs input](./../utils/latency-vs-input-size.png)|
+
+|FPS Speedup vs Input Size |Latency Speedup vs Input Size|
+|:-:|:-:|
+|![FPS speedup per size](./../utils/fps-speedup-vs-input-size.png)|![Latency speedup per size](./../utils/latency-speedup-vs-input-size.png)|

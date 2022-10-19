@@ -2,3 +2,4 @@
 build
 models
 ryzen7-res.txt
+utils/plot-test.py
