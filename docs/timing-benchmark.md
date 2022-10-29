@@ -183,6 +183,40 @@ The following table shows important CPU features of each system:
 			<td> 46.23 </td>
 			<td> 21.61 </td>
 		</tr>
+		<tr>
+			<td> yolov7 (dynamic) </td>
+			<td> 1.31 </td>
+			<td> 760.69 </td>
+			<td> 3.10 </td>
+			<td> 322.82 </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+		</tr>
+		<tr>
+			<td> yolov7-quan (dynamic) </td>
+			<td> 2.00 </td>
+			<td> 500.65 </td>
+			<td> 5.14 </td>
+			<td> 194.41 </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+		</tr>
     </tbody>
 </table>
 
@@ -285,6 +319,23 @@ The following table shows the FPS and latency improvement value for each model o
 			<td> 3.24% </td>
 			<td> 92.14% </td>
 			<td> 47.98% </td>
+		</tr>
+		<tr>
+			<td> yolov7 (dynamic) </td>
+			<td> 52.67% </td>
+			<td> 34.18% </td>
+			<td> 65.80% </td>
+			<td> 39.78% </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
+			<td> N/A </td>
 		</tr>
     </tbody>
 </table>
